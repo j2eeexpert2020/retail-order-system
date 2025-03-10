@@ -1,0 +1,53 @@
+services:
+  # Retail order system application
+  retail-order-app:
+    build: .
+    container_name: retail-order-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/retaildb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
+    depends_on:
+      - postgres
+      - kafka
+
+  # PostgreSQL database
+  postgres:
+    image: postgres:latest
+    container_name: retail-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=retaildb
+    ports:
+      - "5432:5432"
+
+  # Kafka broker
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: retail-kafka
+    environment:
+      KAFKA_ADVERTISED_LISTENER: INSIDE_KAFKA:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL: PLAINTEXT
+      KAFKA_LISTENER_NAME_EXTERNAL: EXTERNAL
+      KAFKA_LISTENER_NAME_INTERNAL: INSIDE
+      KAFKA_LISTENER_INTERNAL: INSIDE_KAFKA:9093
+      KAFKA_LISTENER_EXTERNAL: localhost:9092
+      KAFKA_LISTENER_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+
+  # Zookeeper
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    container_name: retail-zookeeper
+    ports:
+      - "2181:2181"
+
