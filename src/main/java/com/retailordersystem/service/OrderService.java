@@ -2,6 +2,8 @@ package com.retailordersystem.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,8 @@ import com.retailordersystem.repository.OrderRepository;
 
 @Service
 public class OrderService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     private final OrderRepository orderRepository;
     private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate; 
@@ -21,10 +25,13 @@ public class OrderService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public Order createOrder(Order order) {
+	public Order createOrder(Order order) {
     	Order savedOrder = orderRepository.save(order);
-    	OrderPlacedEvent event = new OrderPlacedEvent(savedOrder.getId(), savedOrder.getStatus());
+    	logger.info("Order {} saved to postgres:", savedOrder);
+    	OrderPlacedEvent event = new OrderPlacedEvent(savedOrder.getId(),"PROCESSED","Event from OrderService ");
+    	
         kafkaTemplate.send("order_placed_topic", event); // Publish event
+        logger.info("Order {} published to kafka :", event);
         return savedOrder;
     }
 

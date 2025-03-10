@@ -94,6 +94,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.awaitility</groupId>
+			<artifactId>awaitility</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
 		<!-- Spring Boot Actuator (optional for health checks, metrics) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -1,3 +1,3 @@
 package com.retailordersystem.kafka;
 
-public record OrderPlacedEvent (Long orderId,String orderStatus) {}
+public record OrderPlacedEvent (Long orderId,String orderStatus,String description) {}

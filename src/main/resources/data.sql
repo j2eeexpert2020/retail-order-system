@@ -3,6 +3,6 @@ TRUNCATE TABLE orders RESTART IDENTITY CASCADE;
 
 
 -- Insert sample data into the "orders" table
-INSERT INTO orders (status) VALUES
-    ('PENDING'),
-    ('PENDING');
+INSERT INTO orders (status,description) VALUES
+    ('PENDING','DUMMY ORDER'),
+    ('PENDING','DUMMY ORDER');

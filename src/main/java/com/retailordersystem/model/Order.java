@@ -15,13 +15,16 @@ public class Order {
     private Long id;
 
     private String status;    // Status field (e.g., PENDING, PROCESSING, SHIPPED)
+    
+    private String description;
 
     // Default constructor
     public Order() {}
 
-    // Constructor with all fields
-    public Order(String status) {
+    // Constructor with all 
+    public Order(String status,String description) {
         this.status = status;
+        this.description = description;
     }
 
     // Getters and Setters
@@ -42,4 +45,14 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+    
+    
 }
