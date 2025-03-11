@@ -31,10 +31,10 @@ public class OrderPlacedEventConsumer {
          orderRepository.save(order);
 
      } catch (NumberFormatException ex) {
-         System.err.println("Invalid order ID received: " + event.orderId());
+        // System.err.println("Invalid order ID received: " + event.orderId());
          // Handle the error appropriately (e.g., log, send to a dead-letter queue)
      } catch (RuntimeException ex) {
-         System.err.println("Error processing order: " + ex.getMessage());
+         //System.err.println("Error processing order: " + ex.getMessage());
          // Handle the error (e.g., publish OrderFailedEvent)
      }
  }
